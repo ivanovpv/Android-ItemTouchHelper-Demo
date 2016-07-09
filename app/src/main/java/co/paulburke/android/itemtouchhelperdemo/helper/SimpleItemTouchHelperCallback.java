@@ -36,19 +36,29 @@ public class SimpleItemTouchHelperCallback extends ItemTouchHelper.Callback {
     public static final float ALPHA_FULL = 1.0f;
 
     private final ItemTouchHelperAdapter mAdapter;
+    private boolean dragEnabled;
 
     public SimpleItemTouchHelperCallback(ItemTouchHelperAdapter adapter) {
         mAdapter = adapter;
+        dragEnabled=false;
     }
 
     @Override
     public boolean isLongPressDragEnabled() {
-        return true;
+        return dragEnabled;
     }
 
     @Override
     public boolean isItemViewSwipeEnabled() {
-        return true;
+        return dragEnabled;
+    }
+
+    public void setDragEnabled(boolean dragEnabled) {
+        this.dragEnabled=dragEnabled;
+    }
+
+    public boolean isDragEnabled() {
+        return dragEnabled;
     }
 
     @Override
@@ -67,13 +77,12 @@ public class SimpleItemTouchHelperCallback extends ItemTouchHelper.Callback {
 
     @Override
     public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder source, RecyclerView.ViewHolder target) {
-        if (source.getItemViewType() != target.getItemViewType()) {
+     /*   if (source.getItemViewType() != target.getItemViewType()) {
             return false;
-        }
+        }*/
 
         // Notify the adapter of the move
-        mAdapter.onItemMove(source.getAdapterPosition(), target.getAdapterPosition());
-        return true;
+        return mAdapter.onItemMove(source.getAdapterPosition(), target.getAdapterPosition());
     }
 
     @Override
